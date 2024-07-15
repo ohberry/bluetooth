@@ -38,7 +38,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // find the characteristic we want
     let chars = light.characteristics();
     for elem in &chars {
-        println!("{}", elem.uuid);
+        println!("{:?}", elem.uuid);
     }
     let uid = Uuid::parse_str("00002a00-0000-1000-8000-00805f9b34fb").unwrap();
     let cmd_char = chars.iter().find(|c| c.uuid == uid).unwrap();
@@ -50,8 +50,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     //     light.write(&cmd_char, &color_cmd, WriteType::WithoutResponse).await?;
     //     time::sleep(Duration::from_millis(200)).await;
     // }
-    let result = light.read(&cmd_char).await?;
-    
+    // let result = light.read(&cmd_char).await?;
+    // println!("{:?}", result);
+    light.subscribe(&cmd_char).await?;
+    let mut event_stream = light.notifications().await?;
+    while let Some(data) = event_stream.().await {
+        
+    }
+
     Ok(())
 }
 
