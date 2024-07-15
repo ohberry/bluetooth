@@ -1,0 +1,11 @@
+ui.window("##HeartRate")
+            .position([0., 0.], Condition::Always)
+            .size([40., 40.], Condition::Always)
+            .flags(WindowFlags::NO_TITLE_BAR)   //去掉标题栏
+            .bg_alpha(0.4)  //设置背景透明
+            .mouse_inputs(false)    //禁用鼠标输入
+            .build(|| {
+                let color = ui.push_style_color(StyleColor::Text, [0.0, 1.0, 0.0, 1.0]);
+                ui.text(format!("{}", 18));
+                color.pop();
+            });
